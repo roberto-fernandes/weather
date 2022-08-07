@@ -1,7 +1,8 @@
 import 'package:go_router/go_router.dart';
+import 'package:weather/features/settings/settings_screen.dart';
+import 'package:weather/features/weather/presentation/home_screen.dart';
 import 'package:weather/routing/not_found_screen.dart';
-import 'package:weather/view/home/home_screen.dart';
-import 'package:weather/view/settings/settings_screen.dart';
+
 
 enum AppRoute {
   home,

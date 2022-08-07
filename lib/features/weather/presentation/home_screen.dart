@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:weather/features/weather/data/weather_repository.dart';
 import 'package:weather/localization/string_hardcoded.dart';
 import 'package:weather/routing/app_router.dart';
 
@@ -8,6 +9,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final value = WeatherRepository.instace.getWeather();
     return Scaffold(
       appBar: AppBar(
         title: Text('Weather'.hardcoded),
@@ -25,8 +27,8 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-          child: Container(
-        color: Colors.grey,
+          child: Center(
+        child: Text(value.toString()),
       )),
     );
   }
