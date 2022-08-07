@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weather/features/weather/data/weather_repository.dart';
 import 'package:weather/localization/string_hardcoded.dart';
@@ -9,7 +10,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final value = WeatherRepository.instace.getWeather();
     return Scaffold(
       appBar: AppBar(
         title: Text('Weather'.hardcoded),
@@ -27,9 +27,25 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-          child: Center(
-        child: Text(value.toString()),
-      )),
+        child: Consumer(
+          builder: (context, ref, _) {
+            final value = ref.watch(weatherMessageProvider);
+            return value.when(data: (message) {
+              return Center(
+                child: Text(message),
+              );
+            }, error: (error, stack) {
+              return const Center(
+                child: Text('error'),
+              );
+            }, loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            });
+          },
+        ),
+      ),
     );
   }
 }
