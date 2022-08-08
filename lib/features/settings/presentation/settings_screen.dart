@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weather/features/global_widgets/default_error_widget.dart';
+import 'package:weather/features/global_widgets/default_error.dart';
 import 'package:weather/features/global_widgets/default_loading.dart';
 import 'package:weather/features/settings/data/settings_repository.dart';
 import 'package:weather/features/settings/presentation/settings_screen_controller.dart';
