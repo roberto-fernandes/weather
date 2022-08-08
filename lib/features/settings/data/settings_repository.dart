@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather/utils/in_memory_store.dart';
-import 'package:weather/utils/string_extension.dart';
 
 enum Scale {
   celsius,
@@ -12,15 +11,13 @@ enum Languages { english }
 abstract class SettingsRepository {
   List<String> getScales();
 
-  String selectedScale();
-
   Future<void> changeScale(String scale);
 
   List<String> getLanguages();
 
   String selectedLanguage();
 
-  Stream<String> tempSlectedScale();
+  Stream<String> selectedScaleStream();
 }
 
 class SettingsRepositoryImplementation implements SettingsRepository {
@@ -28,17 +25,12 @@ class SettingsRepositoryImplementation implements SettingsRepository {
 
   @override
   List<String> getScales() {
-    return Scale.values.map((e) => e.name.capitalized).toList();
-  }
-
-  @override
-  String selectedScale() {
-    return _inMemoryScale.value.capitalized;
+    return Scale.values.map((e) => e.name).toList();
   }
 
   @override
   List<String> getLanguages() {
-    return Languages.values.map((e) => e.name.capitalized).toList();
+    return Languages.values.map((e) => e.name).toList();
   }
 
   @override
@@ -50,12 +42,11 @@ class SettingsRepositoryImplementation implements SettingsRepository {
 
   @override
   Future<void> changeScale(String scale) async {
-    await Future.delayed(const Duration(seconds: 2));
     _inMemoryScale.value = scale;
   }
 
   @override
-  Stream<String> tempSlectedScale() {
+  Stream<String> selectedScaleStream() {
     return _inMemoryScale.stream;
   }
 }
@@ -73,11 +64,6 @@ final scalesProvider = Provider<List<String>>((ref) {
   return repository.getScales();
 });
 
-final selectedScaleProvider = Provider<String>((ref) {
-  final repository = ref.watch(settingsRepositoryProvider);
-  return repository.selectedScale();
-});
-
 final languagesProvider = Provider<List<String>>((ref) {
   final repository = ref.watch(settingsRepositoryProvider);
   return repository.getLanguages();
@@ -88,7 +74,7 @@ final selectedLanguageProvider = Provider<String>((ref) {
   return repository.selectedLanguage();
 });
 
-final tempProvider = StreamProvider<String>((ref) {
+final selectedScaleStreamProvider = StreamProvider<String>((ref) {
   final repository = ref.watch(settingsRepositoryProvider);
-  return repository.tempSlectedScale();
+  return repository.selectedScaleStream();
 });

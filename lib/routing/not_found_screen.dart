@@ -4,7 +4,7 @@ import 'package:weather/localization/string_hardcoded.dart';
 import 'package:weather/routing/app_router.dart';
 
 class NotFoundScreen extends StatelessWidget {
-  const NotFoundScreen({super.key});
+  const NotFoundScreen({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -5,15 +5,14 @@ import 'package:weather/features/global_widgets/default_loading.dart';
 import 'package:weather/features/settings/data/settings_repository.dart';
 import 'package:weather/features/settings/presentation/settings_screen_controller.dart';
 import 'package:weather/localization/string_hardcoded.dart';
+import 'package:weather/utils/string_extension.dart';
 
 class SettingsScreen extends ConsumerWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(settingsScreenStateProvider);
-    final selectedScaleTemp = ref.watch(selectedScaleProvider);
-    final scalesTemp = ref.watch(scalesProvider);
     final hasError = !state.isRefreshing && state.hasError;
     if (state.isLoading) {
       return const LoadingScreen();
@@ -27,25 +26,15 @@ class SettingsScreen extends ConsumerWidget {
           : SafeArea(
               child: Column(
               children: [
-                _OptionSelector(
-                  title: 'Notif Scale'.hardcoded,
-                  options: scalesTemp,
-                  selectedOption: selectedScaleTemp,
-                  onOptionSelected: (scale) {
-                    ref
-                        .read(settingsScreenStateProvider.notifier)
-                        .changeScale(scale);
-                  },
-                ),
                 Consumer(
                   builder:
                       (BuildContext context, WidgetRef ref, Widget? child) {
                     final scales = ref.watch(scalesProvider);
                     final repository = ref.read(settingsRepositoryProvider);
-                    final scale = ref.watch(tempProvider);
+                    final scale = ref.watch(selectedScaleStreamProvider);
                     return scale.when(data: (scale) {
                       return _OptionSelector(
-                        title: 'Scale2'.hardcoded,
+                        title: 'Scale'.hardcoded,
                         options: scales,
                         selectedOption: scale,
                         onOptionSelected: (scale) {
@@ -57,22 +46,6 @@ class SettingsScreen extends ConsumerWidget {
                     }, loading: () {
                       return const SizedBox();
                     });
-                  },
-                ),
-                Consumer(
-                  builder:
-                      (BuildContext context, WidgetRef ref, Widget? child) {
-                    final scales = ref.watch(scalesProvider);
-                    final selectedScale = ref.watch(selectedScaleProvider);
-                    final repository = ref.read(settingsRepositoryProvider);
-                    return _OptionSelector(
-                      title: 'Scale'.hardcoded,
-                      options: scales,
-                      selectedOption: selectedScale,
-                      onOptionSelected: (scale) {
-                        repository.changeScale(scale);
-                      },
-                    );
                   },
                 ),
                 Consumer(
@@ -137,7 +110,7 @@ class _OptionSelector extends StatelessWidget {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(item),
+                      child: Text(item.capitalized),
                     ),
                   ),
               ];
@@ -150,7 +123,7 @@ class _OptionSelector extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(selectedOption),
+                  Text(selectedOption.capitalized),
                   const Icon(Icons.arrow_drop_down),
                 ],
               ),

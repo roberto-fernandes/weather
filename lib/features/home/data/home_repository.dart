@@ -1,15 +1,20 @@
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weather/features/home/domain/day.dart';
+import 'package:weather/features/home/data/data_source/weather_data_source.dart';
+import 'package:weather/features/home/domain/weather.dart';
 
 abstract class HomeRepository {
   Future<String> getWeatherMessage();
 
-  Future<Day> getWeather();
+  Future<Weather> getWeather(String units);
 }
 
 class HomeRepositoryImplementation implements HomeRepository {
+
+  HomeRepositoryImplementation(this._weatherDataSource);
+
+  final WeatherDataSource _weatherDataSource;
   final num = Random().nextInt(100);
 
   @override
@@ -19,17 +24,20 @@ class HomeRepositoryImplementation implements HomeRepository {
   }
 
   @override
-  Future<Day> getWeather() async {
-    await Future.delayed(const Duration(seconds: 2));
-    return Day(dayOfTheWeek: 'Friday${Random().nextInt(100)}');
+  Future<Weather> getWeather(String units) async {
+    const lat = 41.1579;
+    const lon = -8.6290;
+    const cnt = 10;
+    return _weatherDataSource.getWeather(lat: lat, lon: lon, cnt: cnt, units: units);
   }
 }
 
 final homeRepositoryProvider = Provider.autoDispose<HomeRepository>((ref) {
-  return HomeRepositoryImplementation();
+  final remoteDataSource = ref.read(remoteWeatherDataSourceProvider);
+  return HomeRepositoryImplementation(remoteDataSource);
 });
 
 final homeMessageProvider = FutureProvider.autoDispose<String>((ref) {
-  final homeRepository = ref.watch(homeRepositoryProvider);
+  final homeRepository = ref.watch(homeRepositoryProvider); //todo read?
   return homeRepository.getWeatherMessage();
 });

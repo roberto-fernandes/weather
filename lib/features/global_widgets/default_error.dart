@@ -5,8 +5,8 @@ class DefaultErrorWidget extends StatelessWidget {
   const DefaultErrorWidget({
     this.title,
     this.tryAgainAction,
-    super.key,
-  });
+    Key? key,
+  }): super(key: key);
 
   final String? title;
   final VoidCallback? tryAgainAction;
