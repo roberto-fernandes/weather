@@ -14,6 +14,7 @@ dependencies:
   go_router: 3.0.3
   cupertino_icons: ^1.0.2
   flutter_riverpod: 2.0.0-dev.7
+  rxdart: 0.27.5
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:weather/features/global_widgets/default_loading.dart';
+import 'package:weather/features/settings/data/settings_repository.dart';
 import 'package:weather/features/weather/data/weather_repository.dart';
 import 'package:weather/localization/string_hardcoded.dart';
 import 'package:weather/routing/app_router.dart';
@@ -27,23 +29,43 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: Consumer(
-          builder: (context, ref, _) {
-            final value = ref.watch(weatherMessageProvider);
-            return value.when(data: (message) {
-              return Center(
-                child: Text(message),
-              );
-            }, error: (error, stack) {
-              return const Center(
-                child: Text('error'),
-              );
-            }, loading: () {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            });
-          },
+        child: Column(
+          children: [
+            Consumer(
+              builder: (context, ref, _) {
+                final value = ref.watch(weatherMessageProvider);
+                return value.when(data: (message) {
+                  return Center(
+                    child: Text(message),
+                  );
+                }, error: (error, stack) {
+                  return const Center(
+                    child: Text('error'), //todo
+                  );
+                }, loading: () {
+                  return const DefaultLoadingWidget();
+                });
+              },
+            ),
+            Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                final scale = ref.watch(tempProvider);
+                return scale.when(data: (scale) {
+                  return Text('stream: $scale');
+                }, error: (_, __) {
+                  return const SizedBox();
+                }, loading: () {
+                  return const SizedBox();
+                });
+              },
+            ),
+            Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                final scale = ref.watch(selectedScaleProvider);
+                return Text('sync: $scale');
+              },
+            ),
+          ],
         ),
       ),
     );
