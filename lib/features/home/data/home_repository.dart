@@ -27,7 +27,7 @@ class HomeRepositoryImplementation implements HomeRepository {
   Future<Weather> getWeather(String units) async {
     const lat = 41.1579;
     const lon = -8.6290;
-    const cnt = 10;
+    const cnt = 100;
     return _weatherDataSource.getWeather(lat: lat, lon: lon, cnt: cnt, units: units);
   }
 }

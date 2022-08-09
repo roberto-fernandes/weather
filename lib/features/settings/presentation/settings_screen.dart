@@ -5,7 +5,7 @@ import 'package:weather/features/global_widgets/default_loading.dart';
 import 'package:weather/features/settings/data/settings_repository.dart';
 import 'package:weather/features/settings/presentation/settings_screen_controller.dart';
 import 'package:weather/localization/string_hardcoded.dart';
-import 'package:weather/utils/string_extension.dart';
+import 'package:weather/utils/extensions.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({Key? key}): super(key: key);

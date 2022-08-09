@@ -5,7 +5,8 @@ import 'package:weather/features/global_widgets/default_error.dart';
 import 'package:weather/features/global_widgets/default_loading.dart';
 import 'package:weather/features/home/domain/weather.dart';
 import 'package:weather/features/home/presentation/home_screen_controller.dart';
-import 'package:weather/features/home/presentation/widgets/day_details_widget.dart';
+import 'package:weather/features/home/presentation/widgets/day_details_sliver.dart';
+import 'package:weather/features/home/presentation/widgets/day_list_sliver.dart';
 import 'package:weather/localization/string_hardcoded.dart';
 import 'package:weather/routing/app_router.dart';
 
@@ -69,15 +70,14 @@ class _WeatherInformation extends StatelessWidget {
       physics: const AlwaysScrollableScrollPhysics(),
       slivers: [
         DayDetailsSliver(
-          weather: weather,
+          cityName: weather?.city.name ?? '',
+          day: weather?.list.first,
           symbol: symbol,
         ),
-        SliverToBoxAdapter(
-          child: Container(
-            height: 200,
-            color: Colors.yellow,
-          ),
-        )
+        DayListSliver(
+          days: weather?.list,
+          symbol: symbol,
+        ),
       ],
     );
   }

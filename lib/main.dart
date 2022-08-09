@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       routeInformationParser: goRouter.routeInformationParser,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.amber,
       ),
     );
   }
