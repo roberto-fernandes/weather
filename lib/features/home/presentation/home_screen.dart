@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weather/features/global_widgets/default_error.dart';
 import 'package:weather/features/global_widgets/default_loading.dart';
+import 'package:weather/features/global_widgets/orientation_widget.dart';
 import 'package:weather/features/home/presentation/home_screen_controller.dart';
 import 'package:weather/features/home/presentation/widgets/day_details_sliver.dart';
 import 'package:weather/features/home/presentation/widgets/day_list_sliver.dart';
@@ -47,7 +48,10 @@ class HomeScreen extends StatelessWidget {
             onRefresh: () {
               return ref.read(homeScreenStateProvider.notifier).loadWeather();
             },
-            child: const _WeatherInformation(),
+            child: const OrientationWidget(
+              portrait: _WeatherInformationPortrait(),
+              landscape: _WeatherInformationLandscape(),
+            ),
           );
         },
       ),
@@ -55,8 +59,8 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _WeatherInformation extends StatelessWidget {
-  const _WeatherInformation();
+class _WeatherInformationPortrait extends StatelessWidget {
+  const _WeatherInformationPortrait();
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +69,24 @@ class _WeatherInformation extends StatelessWidget {
       slivers: [
         DayDetailsSliver(),
         DayListSliver(),
+      ],
+    );
+  }
+}
+
+class _WeatherInformationLandscape extends StatelessWidget {
+  const _WeatherInformationLandscape();
+
+  @override
+  Widget build(BuildContext context) {
+    return const CustomScrollView(
+      physics: AlwaysScrollableScrollPhysics(),
+      slivers: [
+        SliverToBoxAdapter(
+          child: SizedBox(height: 10,),
+        ),
+        DayListSliver(portraitMode: false),
+        DayDetailsSliver(portraitMode: false),
       ],
     );
   }

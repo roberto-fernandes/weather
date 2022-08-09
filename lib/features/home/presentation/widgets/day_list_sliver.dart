@@ -5,8 +5,11 @@ import 'package:weather/utils/extensions.dart';
 
 class DayListSliver extends StatelessWidget {
   const DayListSliver({
+    this.portraitMode = true,
     Key? key,
   }) : super(key: key);
+
+  final bool portraitMode;
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +18,12 @@ class DayListSliver extends StatelessWidget {
         builder: (context, ref, child) {
           final controller = ref.read(homeScreenStateProvider.notifier);
           final days = controller.weather?.list;
-          final symbol =controller.scaleSymbol;
+          final symbol = controller.scaleSymbol;
           return Container(
-            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+            margin: EdgeInsets.symmetric(
+              vertical: portraitMode ? 4 : 20,
+              horizontal: portraitMode ? 20 : 4,
+            ),
             height: 170.0,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -30,7 +36,8 @@ class DayListSliver extends StatelessWidget {
                   width: 170.0,
                   child: InkWell(
                     onTap: () {
-                      ref.read(homeScreenStateProvider.notifier).selectedDay = item;
+                      ref.read(homeScreenStateProvider.notifier).selectedDay =
+                          item;
                     },
                     child: Card(
                       child: Padding(
