@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weather/features/global_widgets/default_error.dart';
 import 'package:weather/features/global_widgets/default_loading.dart';
-import 'package:weather/features/home/domain/weather.dart';
 import 'package:weather/features/home/presentation/home_screen_controller.dart';
 import 'package:weather/features/home/presentation/widgets/day_details_sliver.dart';
 import 'package:weather/features/home/presentation/widgets/day_list_sliver.dart';
@@ -34,8 +33,6 @@ class HomeScreen extends StatelessWidget {
       body: Consumer(
         builder: (context, ref, child) {
           final state = ref.watch(homeScreenStateProvider);
-          final symbol =
-              ref.watch(homeScreenStateProvider.notifier).scaleSymbol;
           if (state.isLoading) {
             return const LoadingScreen();
           } else if (state.hasError) {
@@ -45,12 +42,12 @@ class HomeScreen extends StatelessWidget {
               },
             );
           }
-          final weather = ref.watch(homeScreenStateProvider.notifier).weather;
+
           return RefreshIndicator(
             onRefresh: () {
               return ref.read(homeScreenStateProvider.notifier).loadWeather();
             },
-            child: _WeatherInformation(weather, symbol),
+            child: const _WeatherInformation(),
           );
         },
       ),
@@ -59,25 +56,15 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _WeatherInformation extends StatelessWidget {
-  const _WeatherInformation(this.weather, this.symbol);
-
-  final Weather? weather;
-  final String symbol;
+  const _WeatherInformation();
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
+    return const CustomScrollView(
+      physics: AlwaysScrollableScrollPhysics(),
       slivers: [
-        DayDetailsSliver(
-          cityName: weather?.city.name ?? '',
-          day: weather?.list.first,
-          symbol: symbol,
-        ),
-        DayListSliver(
-          days: weather?.list,
-          symbol: symbol,
-        ),
+        DayDetailsSliver(),
+        DayListSliver(),
       ],
     );
   }

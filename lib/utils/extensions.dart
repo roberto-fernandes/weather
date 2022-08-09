@@ -27,4 +27,8 @@ extension DateTimeFormatted on DateTime {
   String get shortWeekdayName {
     return weekdayName.substring(0, 3);
   }
+
+  DateTime get startOfDay {
+    return DateTime(year, month, day);
+  }
 }

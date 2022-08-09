@@ -74,7 +74,7 @@ final selectedLanguageProvider = Provider<String>((ref) {
   return repository.selectedLanguage();
 });
 
-final selectedScaleStreamProvider = StreamProvider<String>((ref) {
+final selectedScaleStreamProvider = StreamProvider.autoDispose<String>((ref) {
   final repository = ref.watch(settingsRepositoryProvider);
   return repository.selectedScaleStream();
 });

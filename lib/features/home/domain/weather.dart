@@ -18,4 +18,14 @@ class Weather {
       _$WeatherFromJson(json);
 
   Map<String, dynamic> toJson() => _$WeatherToJson(this);
+
+  Weather copyWith({
+    City? city,
+    List<Day>? list,
+  }) {
+    return Weather(
+      city: city ?? this.city,
+      list: list ?? this.list,
+    );
+  }
 }
