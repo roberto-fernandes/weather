@@ -4,7 +4,6 @@ import 'package:weather/features/global_widgets/default_error.dart';
 import 'package:weather/features/global_widgets/default_loading.dart';
 import 'package:weather/features/settings/data/settings_repository.dart';
 import 'package:weather/features/settings/presentation/settings_screen_controller.dart';
-import 'package:weather/localization/string_hardcoded.dart';
 import 'package:weather/utils/extensions.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -19,7 +18,7 @@ class SettingsScreen extends ConsumerWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'.hardcoded),
+        title: const Text('Settings'),
       ),
       body: hasError
           ? const DefaultErrorWidget()
@@ -34,7 +33,7 @@ class SettingsScreen extends ConsumerWidget {
                     final scale = ref.watch(selectedScaleStreamProvider);
                     return scale.when(data: (scale) {
                       return _OptionSelector(
-                        title: 'Scale'.hardcoded,
+                        title: 'Scale',
                         options: scales,
                         selectedOption: scale,
                         onOptionSelected: (scale) {
@@ -55,7 +54,7 @@ class SettingsScreen extends ConsumerWidget {
                     final selectedLanguage =
                         ref.watch(selectedLanguageProvider);
                     return _OptionSelector(
-                      title: 'Language'.hardcoded,
+                      title: 'Language',
                       options: languages,
                       selectedOption: selectedLanguage,
                       onOptionSelected: (_) {},

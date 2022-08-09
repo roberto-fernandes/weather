@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weather/localization/string_hardcoded.dart';
 
 class DefaultErrorWidget extends StatelessWidget {
   const DefaultErrorWidget({
@@ -18,13 +17,13 @@ class DefaultErrorWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(title ?? 'Error'.hardcoded),
+          Text(title ?? 'Error'),
           if (tryAgainAction != null)
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: tryAgainAction,
-                child: Text('Try Again'.hardcoded),
+                child: Text('Try Again'),
               ),
             )
         ],

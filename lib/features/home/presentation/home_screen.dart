@@ -7,7 +7,6 @@ import 'package:weather/features/global_widgets/orientation_widget.dart';
 import 'package:weather/features/home/presentation/home_screen_controller.dart';
 import 'package:weather/features/home/presentation/widgets/day_details_sliver.dart';
 import 'package:weather/features/home/presentation/widgets/day_list_sliver.dart';
-import 'package:weather/localization/string_hardcoded.dart';
 import 'package:weather/routing/app_router.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weather'.hardcoded),
+        title: const Text('Weather'),
         actions: [
           InkWell(
             onTap: () => context.pushNamed(AppRoute.settings.name),
